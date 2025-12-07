@@ -1,0 +1,39 @@
+@if (loading) {
+  <div class="loading-container">
+    <div class="loading"></div>
+    <p>Laddar användare...</p>
+  </div>
+} @else {
+  <div class="users-list">
+    @for (user of users; track user.uid) {
+      <div class="user-card">
+        <div class="user-info">
+          <div class="user-avatar-section">
+            @if (user.photoURL) {
+              <img [src]="user.photoURL" [alt]="user.displayName || 'User'" class="user-avatar">
+            } @else {
+              <div class="user-avatar-placeholder">
+                {{ (user.displayName || user.email)[0].toUpperCase() }}
+              </div>
+            }
+          </div>
+          <div class="user-details">
+            <h3>{{ user.displayName || 'Inget namn' }}</h3>
+            <p class="user-email">{{ user.email }}</p>
+            <span class="role-badge" [class.role-admin]="user.role === 'admin'">
+              {{ user.role === 'admin' ? 'Administratör' : 'Kund' }}
+            </span>
+          </div>
+        </div>
+        <div class="user-actions">
+          <button 
+            (click)="onToggleRole(user)"
+            class="btn-toggle-role"
+            [disabled]="user.uid === currentUserId">
+            {{ user.role === 'admin' ? '⇣ Gör till kund' : '⇡ Gör till admin' }}
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+}

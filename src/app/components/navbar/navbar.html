@@ -5,24 +5,50 @@
     </a>
     
     <ul class="nav-links">
-      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
-      <li><a routerLink="/calendar" routerLinkActive="active">Availability</a></li>
-      <li><a routerLink="/booking" routerLinkActive="active">Book Now</a></li>
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Hem</a></li>
+      <li><a routerLink="/calendar" routerLinkActive="active">Tillgänglighet</a></li>
+      <li><a routerLink="/booking" routerLinkActive="active">Boka nu</a></li>
       
       @if (currentUser$ | async; as user) {
-        @if (user.role === 'admin') {
-          <li><a routerLink="/admin" routerLinkActive="active">Admin</a></li>
-        }
-        <li class="user-info">
-          @if (user.photoURL) {
-            <img [src]="user.photoURL" [alt]="user.displayName || 'User'" class="user-avatar">
+        <li class="user-profile">
+          <button class="profile-button" (click)="toggleDropdown()">
+            @if (user.photoURL) {
+              <img [src]="user.photoURL" [alt]="user.displayName || 'User'" class="user-avatar">
+            } @else {
+              <div class="user-avatar-placeholder">
+                {{ (user.displayName || user.email || 'U')[0].toUpperCase() }}
+              </div>
+            }
+            <span class="user-name">{{ user.displayName || user.email }}</span>
+            <span class="dropdown-arrow">▾</span>
+          </button>
+          @if (dropdownOpen) {
+            <div class="dropdown-menu">
+              @if (user.role === 'admin') {
+                <a routerLink="/admin" (click)="closeDropdown()" class="dropdown-item">
+                  <span class="dropdown-icon">⚙️</span>
+                  Adminpanel
+                </a>
+                <div class="dropdown-divider"></div>
+              }
+              <button (click)="logout()" class="dropdown-item logout-item">
+                <span class="dropdown-icon">🚪</span>
+                Logga ut
+              </button>
+            </div>
           }
-          <span>{{ user.displayName || user.email }}</span>
-          <button (click)="logout()" class="btn-logout">Logout</button>
         </li>
       } @else {
-        <li><a routerLink="/login" routerLinkActive="active" class="btn-login">Login</a></li>
+        <li><a routerLink="/login" routerLinkActive="active" class="btn-login">Logga in</a></li>
       }
     </ul>
+    
+    <button class="theme-toggle" (click)="toggleTheme()" [attr.aria-label]="isDarkMode ? 'Byt till ljust läge' : 'Byt till mörkt läge'">
+      @if (isDarkMode) {
+        <span class="theme-icon">☀️</span>
+      } @else {
+        <span class="theme-icon">🌙</span>
+      }
+    </button>
   </div>
 </nav>

@@ -44,7 +44,7 @@ export class BookingComponent {
       }
 
       if (!this.bookingData.checkInDate || !this.bookingData.checkOutDate) {
-        this.error = 'Please select check-in and check-out dates';
+        this.error = 'Välj incheckning- och utcheckningsdatum';
         this.loading = false;
         return;
       }
@@ -53,7 +53,7 @@ export class BookingComponent {
       const checkOut = new Date(this.bookingData.checkOutDate);
 
       if (checkOut <= checkIn) {
-        this.error = 'Check-out date must be after check-in date';
+        this.error = 'Utcheckningsdatum måste vara efter incheckningsdatum';
         this.loading = false;
         return;
       }
@@ -85,7 +85,7 @@ export class BookingComponent {
       }, 5000);
 
     } catch (err) {
-      this.error = 'Failed to create booking. Please try again.';
+      this.error = 'Misslyckades med att skapa bokning. Försök igen.';
       console.error(err);
     } finally {
       this.loading = false;

@@ -1,11 +1,11 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyBPckK4aK0iiL_o4GwIG-1xIxIlzxp2vgk",
+    authDomain: "chirimoyo-33.firebaseapp.com",
+    projectId: "chirimoyo-33",
+    storageBucket: "chirimoyo-33.firebasestorage.app",
+    messagingSenderId: "254376991780",
+    appId: "1:254376991780:web:205dcfa96bf8acde8a0cb1"
   }
 };

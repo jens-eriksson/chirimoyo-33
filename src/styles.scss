@@ -3,7 +3,7 @@
 /* Import Alegreya font from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500;600;700;800&display=swap');
 
-/* Color variables */
+/* Color variables - Light Theme */
 :root {
   --primary-color: #FFC107; /* Sunny Yellow */
   --background-color: #F5F5DC; /* Soft Sand */
@@ -12,6 +12,39 @@
   --text-light: #666666;
   --white: #FFFFFF;
   --shadow: rgba(0, 0, 0, 0.1);
+  --card-bg: #FFFFFF;
+  --border-color: #e0e0e0;
+  --hover-bg: #f0f0f0;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --primary-color: #FFB300; /* Darker Yellow */
+  --background-color: #1a1a1a; /* Dark Background */
+  --accent-color: #D16B52; /* Darker Terra Cotta */
+  --text-color: #e0e0e0;
+  --text-light: #a0a0a0;
+  --white: #2a2a2a;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --card-bg: #2a2a2a;
+  --border-color: #404040;
+  --hover-bg: #333333;
+}
+
+/* Auto dark mode based on system preference */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --primary-color: #FFB300;
+    --background-color: #1a1a1a;
+    --accent-color: #D16B52;
+    --text-color: #e0e0e0;
+    --text-light: #a0a0a0;
+    --white: #2a2a2a;
+    --shadow: rgba(0, 0, 0, 0.3);
+    --card-bg: #2a2a2a;
+    --border-color: #404040;
+    --hover-bg: #333333;
+  }
 }
 
 * {
@@ -20,11 +53,16 @@
   box-sizing: border-box;
 }
 
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 body {
   font-family: 'Alegreya', serif;
   background-color: var(--background-color);
   color: var(--text-color);
   line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -17,6 +17,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 2rem;
 }
 
 .logo {
@@ -38,6 +39,34 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+  }
+  
+  .theme-toggle {
+    background-color: transparent;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+    flex-shrink: 0;
+    
+    .theme-icon {
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    &:hover {
+      background-color: var(--hover-bg);
+      border-color: var(--primary-color);
+      transform: rotate(20deg);
+    }
   }
   
   a {
@@ -68,37 +97,124 @@
   }
 }
 
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+.user-profile {
+  position: relative;
   
-  .user-avatar {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    border: 2px solid var(--primary-color);
+  .profile-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: transparent;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+    font-family: inherit;
+    
+    &:hover {
+      background-color: var(--background-color);
+    }
+    
+    .user-avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid var(--primary-color);
+      object-fit: cover;
+    }
+    
+    .user-avatar-placeholder {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid var(--primary-color);
+      background-color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text-color);
+    }
+    
+    .user-name {
+      font-weight: 600;
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .dropdown-arrow {
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+    }
   }
   
-  span {
-    font-weight: 600;
-    color: var(--text-color);
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    background-color: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    overflow: hidden;
+    z-index: 1001;
+    animation: dropdownFadeIn 0.2s ease;
+    
+    .dropdown-divider {
+      height: 1px;
+      background-color: var(--border-color);
+      margin: 0;
+    }
+    
+    .dropdown-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.875rem 1rem;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-color);
+      text-align: left;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      
+      .dropdown-icon {
+        font-size: 1.2rem;
+      }
+      
+      &:hover {
+        background-color: var(--background-color);
+      }
+      
+      &.logout-item {
+        color: var(--accent-color);
+        
+        &:hover {
+          background-color: rgba(224, 122, 95, 0.1);
+        }
+      }
+    }
   }
 }
 
-.btn-logout {
-  background-color: var(--accent-color);
-  color: var(--white);
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background-color: color.adjust(#E07A5F, $lightness: -10%);
-    transform: translateY(-2px);
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -106,13 +222,22 @@
   .nav-links {
     gap: 1rem;
     font-size: 0.9rem;
-    
-    span {
-      display: none;
-    }
   }
   
   .nav-container {
     padding: 0 1rem;
+  }
+  
+  .user-profile {
+    .profile-button {
+      .user-name {
+        display: none;
+      }
+    }
+    
+    .dropdown-menu {
+      right: -1rem;
+      min-width: 180px;
+    }
   }
 }

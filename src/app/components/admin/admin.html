@@ -1,41 +1,57 @@
 <div class="admin-container">
   <div class="admin-header">
-    <h1>Admin Dashboard</h1>
-    <p>Manage bookings for Chirimoyo 33</p>
+    <h1>Adminpanel</h1>
+    <p>Hantera bokningar och användare för Chirimoyo 33</p>
   </div>
 
-  @if (loading) {
-    <div class="loading-container">
-      <div class="loading"></div>
-      <p>Loading bookings...</p>
-    </div>
-  } @else {
-    <div class="bookings-stats">
-      <div class="stat-card">
-        <h3>{{ bookings.length }}</h3>
-        <p>Total Bookings</p>
-      </div>
-      <div class="stat-card">
-        <h3>{{ getPendingCount() }}</h3>
-        <p>Pending</p>
-      </div>
-      <div class="stat-card">
-        <h3>{{ getConfirmedCount() }}</h3>
-        <p>Confirmed</p>
-      </div>
-      <div class="stat-card">
-        <h3>{{ getCancelledCount() }}</h3>
-        <p>Cancelled</p>
-      </div>
-    </div>
+  <div class="admin-tabs">
+    <button 
+      class="tab-button" 
+      [class.active]="activeTab === 'bookings'"
+      (click)="activeTab = 'bookings'">
+      Bokningar
+    </button>
+    <button 
+      class="tab-button" 
+      [class.active]="activeTab === 'users'"
+      (click)="activeTab = 'users'">
+      Användare
+    </button>
+  </div>
 
-    @if (bookings.length === 0) {
-      <div class="no-bookings">
-        <p>No bookings yet</p>
+  @if (activeTab === 'bookings') {
+    @if (loading) {
+      <div class="loading-container">
+        <div class="loading"></div>
+        <p>Laddar bokningar...</p>
       </div>
     } @else {
-      <div class="bookings-table">
-        @for (booking of bookings; track booking.id) {
+      <div class="bookings-stats">
+        <div class="stat-card">
+          <h3>{{ bookings.length }}</h3>
+          <p>Totalt bokningar</p>
+        </div>
+        <div class="stat-card">
+          <h3>{{ getPendingCount() }}</h3>
+          <p>Väntande</p>
+        </div>
+        <div class="stat-card">
+          <h3>{{ getConfirmedCount() }}</h3>
+          <p>Bekräftade</p>
+        </div>
+        <div class="stat-card">
+          <h3>{{ getCancelledCount() }}</h3>
+          <p>Avbokade</p>
+        </div>
+      </div>
+
+      @if (bookings.length === 0) {
+        <div class="no-bookings">
+          <p>Inga bokningar ännu</p>
+        </div>
+      } @else {
+        <div class="bookings-table">
+          @for (booking of bookings; track booking.id) {
           <div class="booking-card fade-in">
             <div class="booking-header-row">
               <div class="booking-info">
@@ -49,26 +65,26 @@
 
             <div class="booking-details">
               <div class="detail-item">
-                <span class="label">Check-in:</span>
+                <span class="label">Incheckning:</span>
                 <span class="value">{{ formatDate(booking.checkInDate) }}</span>
               </div>
               <div class="detail-item">
-                <span class="label">Check-out:</span>
+                <span class="label">Utcheckning:</span>
                 <span class="value">{{ formatDate(booking.checkOutDate) }}</span>
               </div>
               <div class="detail-item">
-                <span class="label">Guests:</span>
+                <span class="label">Gäster:</span>
                 <span class="value">{{ booking.guests }}</span>
               </div>
               <div class="detail-item">
-                <span class="label">Requested:</span>
+                <span class="label">Begärt:</span>
                 <span class="value">{{ formatDate(booking.createdAt) }}</span>
               </div>
             </div>
 
             @if (booking.message) {
               <div class="booking-message">
-                <span class="label">Message:</span>
+                <span class="label">Meddelande:</span>
                 <p>{{ booking.message }}</p>
               </div>
             }
@@ -78,24 +94,110 @@
                 (click)="updateStatus(booking.id!, 'confirmed')"
                 class="btn-confirm"
                 [disabled]="booking.status === 'confirmed'">
-                ✓ Confirm
+                ✓ Bekräfta
               </button>
               <button 
                 (click)="updateStatus(booking.id!, 'pending')"
                 class="btn-pending"
                 [disabled]="booking.status === 'pending'">
-                ⟳ Pending
+                ⟳ Väntande
               </button>
               <button 
                 (click)="updateStatus(booking.id!, 'cancelled')"
                 class="btn-cancel"
                 [disabled]="booking.status === 'cancelled'">
-                ✕ Cancel
+                ✕ Avboka
               </button>
             </div>
           </div>
         }
-      </div>
+        </div>
+      }
     }
+  }
+
+  @if (activeTab === 'users') {
+    <div class="users-section">
+      @if (showUserForm) {
+        <div class="section-header">
+          <h2>Skapa ny användare</h2>
+        </div>
+
+        @if (userError) {
+          <div class="error-message">
+            <p>{{ userError }}</p>
+          </div>
+        }
+
+        @if (userSuccess) {
+          <div class="success-message">
+            <p>{{ userSuccess }}</p>
+          </div>
+        }
+
+        <div class="user-form-card">
+          <form (ngSubmit)="createUser()" #userForm="ngForm">
+          <div class="form-group">
+            <label for="userEmail">E-postadress *</label>
+            <input 
+              type="email" 
+              id="userEmail"
+              name="userEmail"
+              [(ngModel)]="newUser.email"
+              required
+              email>
+          </div>
+
+          <div class="form-group">
+            <label for="userName">Namn (valfritt)</label>
+            <input 
+              type="text" 
+              id="userName"
+              name="userName"
+              [(ngModel)]="newUser.displayName">
+          </div>
+
+          <div class="form-group">
+            <label for="userRole">Roll *</label>
+            <select 
+              id="userRole"
+              name="userRole"
+              [(ngModel)]="newUser.role"
+              required>
+              <option value="customer">Kund</option>
+              <option value="admin">Administratör</option>
+            </select>
+          </div>
+
+          <button 
+            type="submit" 
+            class="btn-primary btn-submit"
+            [disabled]="userLoading || !userForm.valid">
+            @if (userLoading) {
+              <span class="loading"></span>
+            } @else {
+              Skapa användare
+            }
+          </button>
+        </form>
+      </div>
+      }
+
+      <div class="section-header">
+        <h2>Registrerade användare</h2>
+        <button 
+          class="btn-primary btn-create-user"
+          (click)="toggleUserForm()">
+          {{ showUserForm ? 'Avbryt' : '+ Skapa ny användare' }}
+        </button>
+      </div>
+
+      <app-users
+        [users]="users"
+        [loading]="usersLoading"
+        [currentUserId]="currentUserId"
+        (toggleRole)="toggleUserRole($event)">
+      </app-users>
+    </div>
   }
 </div>

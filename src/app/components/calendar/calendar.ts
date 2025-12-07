@@ -25,10 +25,10 @@ export class Calendar implements OnInit {
   calendarDays: CalendarDay[] = [];
   bookedDates: Date[] = [];
   
-  monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                'July', 'August', 'September', 'October', 'November', 'December'];
+  monthNames = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni',
+                'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
   
-  dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  dayNames = ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'];
 
   ngOnInit() {
     this.loadBookedDates();

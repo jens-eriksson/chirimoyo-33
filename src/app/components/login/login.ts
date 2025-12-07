@@ -24,7 +24,7 @@ export class Login {
       await this.authService.signInWithGoogle();
       this.router.navigate(['/']);
     } catch (err: any) {
-      this.error = err.message || 'Failed to sign in with Google';
+      this.error = err.message || 'Misslyckades med att logga in med Google';
       console.error(err);
     } finally {
       this.loading = false;

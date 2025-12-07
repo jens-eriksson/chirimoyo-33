@@ -13,23 +13,23 @@ export class Home {
   features = [
     {
       icon: '🌞',
-      title: 'Sunny Location',
-      description: 'Enjoy the beautiful Spanish sunshine year-round'
+      title: 'Soligt läge',
+      description: 'Njut av det vackra spanska solskenet året runt'
     },
     {
       icon: '🏡',
-      title: 'Spacious & Comfortable',
-      description: 'Modern amenities with traditional Spanish charm'
+      title: 'Rymligt & Bekvämt',
+      description: 'Moderna bekvmligheter med traditionell spansk charm'
     },
     {
       icon: '📍',
-      title: 'Prime Location',
-      description: 'Close to local attractions and amenities'
+      title: 'Toppenläge',
+      description: 'Nära lokala attraktioner och bekvämligheter'
     },
     {
       icon: '⭐',
-      title: 'Highly Rated',
-      description: 'Loved by guests from around the world'
+      title: 'Högt Betyg',
+      description: 'Älskad av gäster från hela världen'
     }
   ];
 }
