@@ -1,0 +1,32 @@
+<div class="gallery-container">
+  <div class="main-gallery">
+    <div class="main-image-container">
+      <button class="nav-btn prev" (click)="prevImage()">‹</button>
+      <img [src]="selectedImage" [alt]="propertyInfo.title" class="main-image fade-in">
+      <button class="nav-btn next" (click)="nextImage()">›</button>
+    </div>
+
+    <div class="thumbnail-gallery">
+      @for (image of images.slice(0, 10); track image; let i = $index) {
+        <img 
+          [src]="image" 
+          [alt]="'Property image ' + (i + 1)"
+          class="thumbnail"
+          [class.active]="selectedImage === image"
+          (click)="selectImage(image, i)">
+      }
+    </div>
+  </div>
+
+  <div class="amenities-section">
+    <h2>Amenities</h2>
+    <div class="amenities-grid">
+      @for (amenity of propertyInfo.amenities; track amenity.name) {
+        <div class="amenity-card fade-in">
+          <span class="amenity-icon">{{ amenity.icon }}</span>
+          <span class="amenity-name">{{ amenity.name }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</div>

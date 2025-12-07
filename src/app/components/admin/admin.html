@@ -1,0 +1,101 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>Admin Dashboard</h1>
+    <p>Manage bookings for Chirimoyo 33</p>
+  </div>
+
+  @if (loading) {
+    <div class="loading-container">
+      <div class="loading"></div>
+      <p>Loading bookings...</p>
+    </div>
+  } @else {
+    <div class="bookings-stats">
+      <div class="stat-card">
+        <h3>{{ bookings.length }}</h3>
+        <p>Total Bookings</p>
+      </div>
+      <div class="stat-card">
+        <h3>{{ getPendingCount() }}</h3>
+        <p>Pending</p>
+      </div>
+      <div class="stat-card">
+        <h3>{{ getConfirmedCount() }}</h3>
+        <p>Confirmed</p>
+      </div>
+      <div class="stat-card">
+        <h3>{{ getCancelledCount() }}</h3>
+        <p>Cancelled</p>
+      </div>
+    </div>
+
+    @if (bookings.length === 0) {
+      <div class="no-bookings">
+        <p>No bookings yet</p>
+      </div>
+    } @else {
+      <div class="bookings-table">
+        @for (booking of bookings; track booking.id) {
+          <div class="booking-card fade-in">
+            <div class="booking-header-row">
+              <div class="booking-info">
+                <h3>{{ booking.userName }}</h3>
+                <p class="email">{{ booking.userEmail }}</p>
+              </div>
+              <span class="status-badge" [ngClass]="getStatusClass(booking.status)">
+                {{ booking.status | uppercase }}
+              </span>
+            </div>
+
+            <div class="booking-details">
+              <div class="detail-item">
+                <span class="label">Check-in:</span>
+                <span class="value">{{ formatDate(booking.checkInDate) }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">Check-out:</span>
+                <span class="value">{{ formatDate(booking.checkOutDate) }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">Guests:</span>
+                <span class="value">{{ booking.guests }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">Requested:</span>
+                <span class="value">{{ formatDate(booking.createdAt) }}</span>
+              </div>
+            </div>
+
+            @if (booking.message) {
+              <div class="booking-message">
+                <span class="label">Message:</span>
+                <p>{{ booking.message }}</p>
+              </div>
+            }
+
+            <div class="booking-actions">
+              <button 
+                (click)="updateStatus(booking.id!, 'confirmed')"
+                class="btn-confirm"
+                [disabled]="booking.status === 'confirmed'">
+                ✓ Confirm
+              </button>
+              <button 
+                (click)="updateStatus(booking.id!, 'pending')"
+                class="btn-pending"
+                [disabled]="booking.status === 'pending'">
+                ⟳ Pending
+              </button>
+              <button 
+                (click)="updateStatus(booking.id!, 'cancelled')"
+                class="btn-cancel"
+                [disabled]="booking.status === 'cancelled'">
+                ✕ Cancel
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

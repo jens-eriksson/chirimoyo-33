@@ -1,0 +1,28 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <a routerLink="/" class="logo">
+      <h2>Chirimoyo 33</h2>
+    </a>
+    
+    <ul class="nav-links">
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+      <li><a routerLink="/calendar" routerLinkActive="active">Availability</a></li>
+      <li><a routerLink="/booking" routerLinkActive="active">Book Now</a></li>
+      
+      @if (currentUser$ | async; as user) {
+        @if (user.role === 'admin') {
+          <li><a routerLink="/admin" routerLinkActive="active">Admin</a></li>
+        }
+        <li class="user-info">
+          @if (user.photoURL) {
+            <img [src]="user.photoURL" [alt]="user.displayName || 'User'" class="user-avatar">
+          }
+          <span>{{ user.displayName || user.email }}</span>
+          <button (click)="logout()" class="btn-logout">Logout</button>
+        </li>
+      } @else {
+        <li><a routerLink="/login" routerLinkActive="active" class="btn-login">Login</a></li>
+      }
+    </ul>
+  </div>
+</nav>

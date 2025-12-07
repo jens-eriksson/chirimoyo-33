@@ -1,0 +1,95 @@
+<div class="booking-container">
+  <div class="booking-header">
+    <h1>Book Your Stay</h1>
+    <p>Reserve your dates at Chirimoyo 33</p>
+  </div>
+
+  @if (success) {
+    <div class="success-message fade-in">
+      <h3>✓ Booking Request Submitted!</h3>
+      <p>Your booking request has been received. We'll contact you shortly to confirm your reservation.</p>
+    </div>
+  }
+
+  @if (error) {
+    <div class="error-message fade-in">
+      <p>{{ error }}</p>
+    </div>
+  }
+
+  <div class="booking-card">
+    <form (ngSubmit)="submitBooking()" #bookingForm="ngForm">
+      <div class="form-group">
+        <label for="checkIn">Check-in Date *</label>
+        <input 
+          type="date" 
+          id="checkIn"
+          name="checkIn"
+          [(ngModel)]="bookingData.checkInDate"
+          [min]="minDate"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="checkOut">Check-out Date *</label>
+        <input 
+          type="date" 
+          id="checkOut"
+          name="checkOut"
+          [(ngModel)]="bookingData.checkOutDate"
+          [min]="bookingData.checkInDate || minDate"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="guests">Number of Guests *</label>
+        <select 
+          id="guests"
+          name="guests"
+          [(ngModel)]="bookingData.guests"
+          required>
+          <option [value]="1">1 Guest</option>
+          <option [value]="2">2 Guests</option>
+          <option [value]="3">3 Guests</option>
+          <option [value]="4">4 Guests</option>
+          <option [value]="5">5 Guests</option>
+          <option [value]="6">6 Guests</option>
+          <option [value]="7">7 Guests</option>
+          <option [value]="8">8 Guests</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Special Requests (Optional)</label>
+        <textarea 
+          id="message"
+          name="message"
+          [(ngModel)]="bookingData.message"
+          rows="4"
+          placeholder="Any special requirements or requests?"></textarea>
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn-primary btn-submit"
+        [disabled]="loading || !bookingForm.valid">
+        @if (loading) {
+          <span class="loading"></span>
+        } @else {
+          Submit Booking Request
+        }
+      </button>
+    </form>
+
+    <div class="booking-info">
+      <h3>Important Information</h3>
+      <ul>
+        <li>All bookings are subject to availability</li>
+        <li>You will receive a confirmation email within 24 hours</li>
+        <li>Check-in time: 3:00 PM</li>
+        <li>Check-out time: 11:00 AM</li>
+        <li>For questions, please contact us directly</li>
+      </ul>
+    </div>
+  </div>
+</div>
